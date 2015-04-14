@@ -12,6 +12,9 @@ public class FixedCapacityStackOfStrings {
     }
 
     public void push(String item) {
+        if (top == s.length) {
+            resize(2 * s.length);
+        }
         s[top++] = item;
     }
 
@@ -24,6 +27,16 @@ public class FixedCapacityStackOfStrings {
         // This avoids loitering.
         String item = s[--top];
         s[top] = null;
+        if (top > 0 && top == s.length / 4) resize(s.length / 2);
         return item;
     }
+
+    public void resize(int capacity) {
+        String[] copy = new String[capacity];
+        for(int i = 0; i < top; i++) {
+            copy[i] = s[i];
+        }
+        s = copy;
+    }
+
 }
