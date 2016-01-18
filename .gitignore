@@ -1,3 +1,8 @@
 *.class
-/Sample
-
+*.iml
+.idea
+out
+*.*~
+*~
+.*~
+.DS_Store
