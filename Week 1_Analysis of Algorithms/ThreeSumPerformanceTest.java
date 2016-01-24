@@ -1,7 +1,7 @@
 /**
  * Created by Jeremy on 1/24/16.
  */
-public class ThreeSumPerformaceTest {
+public class ThreeSumPerformanceTest {
 
     public static void main(String[] args) {
 
