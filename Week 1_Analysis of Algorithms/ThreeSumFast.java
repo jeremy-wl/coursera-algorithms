@@ -14,16 +14,20 @@ public class ThreeSumFast {
     }
 
     public static void print(int[] a) {
+        int count = 0;
         int N = a.length;
         Arrays.sort(a);
         if (containsDuplicates(a)) throw new IllegalArgumentException("array contains duplicate integers");
         for (int i = 0; i < N; i++) {
             for (int j = i + 1; j < N; j++) {
                 int val = Arrays.binarySearch(a, j+1, N, -(a[i] + a[j]));
-                if (val > 0)
-                    System.out.printf("%d %d %d \n", a[i], a[j], a[val]);
+                if (val > 0) {
+                    System.out.printf("%d: %d %d %d\n", count+1, a[i], a[j], a[val]);
+                    count++;
+                }
             }
         }
+        System.out.printf("Found %d pair(s).\n\n", count);
     }
 
     public static void main(String[] args) {
