@@ -12,7 +12,7 @@ public class Percolation {
     private int count = 0;
     private int virtualTop;
     private int virtualBtm;
-    WeightedQuickUnionUF uf;
+    private WeightedQuickUnionUF uf;
 
     // create N-by-N grid, with all sites blocked
     public Percolation(int N) {
@@ -53,14 +53,12 @@ public class Percolation {
                 uf.union(virtualTop, idx);  // Union the virtual top site
                 if (isOpen(row+1, col))
                     uf.union(idx+N, idx);   // Union the site below
-                count++;
                 return;
             }
             if (row == N) {
                 uf.union(virtualBtm, idx);  // Union the virtual bottom site
                 if (isOpen(row-1, col))
                     uf.union(idx-N, idx);   // Union the site above
-                count++;
                 return;
             }
 
@@ -69,7 +67,6 @@ public class Percolation {
             if (isOpen(row+1, col))
                 uf.union(idx+N, idx);   // Union the site below
 
-            count++;
         }
         catch (IndexOutOfBoundsException e) {
 //            System.out.println(e.getMessage());
@@ -126,15 +123,11 @@ public class Percolation {
             return false;
     }
 
-    public int coordinateToArrayIndex(int x, int y) {
+    private int coordinateToArrayIndex(int x, int y) {
         return (x-1) * N + (y-1);
     }
 
-    public int getCount() {
-        return count;
-    }
-
-    public double getPercolationThreshold() {
+    private double getPercolationThreshold() {
 
         while (!this.percolates()) {
             int i = StdRandom.uniform(N) + 1;
@@ -142,10 +135,11 @@ public class Percolation {
             if (this.isOpen(i, j)) continue;
             this.open(i, j);
 //            System.out.printf("Opened (%d, %d) \n", i, j);
+            count++;
         }
 
         double N2 = (double)(N);
-        double C = (double)(this.getCount());
+        double C = (double)(this.count);
 
         return C / ( N2 * N2 );
     }
@@ -156,9 +150,8 @@ public class Percolation {
         int N = 100;
         Percolation per = new Percolation(N);
         double p = per.getPercolationThreshold();
-        System.out.printf("Opened %d sites, out of %d. \n\n", per.getCount(), N*N);
+        System.out.printf("Opened %d sites, out of %d. \n\n", per.count, N*N);
         System.out.println("p = " + p);
 
     }
-
 }
