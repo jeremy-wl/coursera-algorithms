@@ -72,7 +72,7 @@ public class Percolation {
             count++;
         }
         catch (IndexOutOfBoundsException e) {
-            System.out.println(e.getMessage());
+//            System.out.println(e.getMessage());
         }
 
     }
@@ -90,7 +90,7 @@ public class Percolation {
         }
 
         catch (IndexOutOfBoundsException e) {
-            System.out.println(e.getMessage());
+//            System.out.println(e.getMessage());
             return false;
         }
 
@@ -110,7 +110,7 @@ public class Percolation {
         }
 
         catch (IndexOutOfBoundsException e) {
-            System.out.println(e.getMessage());
+//            System.out.println(e.getMessage());
             return false;
         }
     }
@@ -130,25 +130,34 @@ public class Percolation {
         return (x-1) * N + (y-1);
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public double getPercolationThreshold() {
+
+        while (!this.percolates()) {
+            int i = StdRandom.uniform(N) + 1;
+            int j = StdRandom.uniform(N) + 1;
+            if (this.isOpen(i, j)) continue;
+            this.open(i, j);
+//            System.out.printf("Opened (%d, %d) \n", i, j);
+        }
+
+        double N2 = (double)(N);
+        double C = (double)(this.getCount());
+
+        return C / ( N2 * N2 );
+    }
+
     // test client (optional)
     public static void main(String[] args) {
 
-            int N = -100;
-            Percolation per = new Percolation(N);
-
-            while (!per.percolates()) {
-                int i = StdRandom.uniform(N) + 1;
-                int j = StdRandom.uniform(N) + 1;
-                if (per.isOpen(i, j)) continue;
-                per.open(i, j);
-
-                System.out.printf("Opened (%d, %d) \n", i, j);
-            }
-            System.out.printf("Opened %d sites, out of %d. \n\n", per.count, N*N);
-
-            double N2 = (double)(N);
-            double C = (double)(per.count);
-        System.out.println("p = " + (C / (N2*N2)) );
+        int N = 100;
+        Percolation per = new Percolation(N);
+        double p = per.getPercolationThreshold();
+        System.out.printf("Opened %d sites, out of %d. \n\n", per.getCount(), N*N);
+        System.out.println("p = " + p);
 
     }
 
