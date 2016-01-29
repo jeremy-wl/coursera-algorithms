@@ -26,10 +26,8 @@ public class Percolation {
     // open site (row i, column j) if it is not open already
     public void open(int row, int col) {
 
-        int x = row - 1;
-        int y = col - 1;
-        int idx = x * N + y;
-        grid[x][y] = idx + 1; // opens the site
+        int idx = coordinateToArrayIndex(row, col);
+        grid[row-1][col-1] = idx + 1; // opens the site
 
         if (isOpen(row, col-1))             // left site is open
             uf.union(idx-1, idx);       // Union the site to the left
@@ -81,7 +79,12 @@ public class Percolation {
     }
 
     public boolean isFull(int i, int j) {
-        return false;
+        int idx= coordinateToArrayIndex(i, j);
+        if ( uf.connected(virtualTop, idx) || (uf.connected(virtualBtm, idx)) )
+            return true;
+        else
+            return false;
+
     }
 
     public boolean percolates() {
@@ -93,6 +96,10 @@ public class Percolation {
             return true;
         else
             return false;
+    }
+
+    public int coordinateToArrayIndex(int x, int y) {
+        return (x-1) * N + (y-1);
     }
 
     // test client (optional)
