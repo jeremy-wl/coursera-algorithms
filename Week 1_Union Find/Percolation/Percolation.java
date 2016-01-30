@@ -93,6 +93,11 @@ public class Percolation {
 
     }
 
+    /**
+     * " A full site is an open site that can be connected to an open site in the top row
+     *          via a chain of neighboring (left, right, up, down) open sites. "
+     * **/
+
     public boolean isFull(int row, int col) {
 
         try {
@@ -100,7 +105,7 @@ public class Percolation {
                 throw new IndexOutOfBoundsException("Index out of bounds, row: " + row + ", col: " + col);
 
             int idx = coordinateToArrayIndex(row, col);
-            if (uf.connected(virtualTop, idx) || (uf.connected(virtualBtm, idx)))
+            if (uf.connected(virtualTop, idx))
                 return true;
             else
                 return false;
