@@ -7,7 +7,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
  * Created by Jeremy on 1/28/16.
  */
 public class Percolation {
-    private int[][] grid;
+    private boolean[][] grid;
     private int N;
     private int count = 0;
     private int virtualTop;
@@ -21,7 +21,7 @@ public class Percolation {
         this.N = N;
         virtualTop = N * N;
         virtualBtm = N * N + 1;
-        grid = new int[N][N];
+        grid = new boolean[N][N];
         uf = new WeightedQuickUnionUF(N*N+2);
     }
 
@@ -32,7 +32,7 @@ public class Percolation {
             throw new IndexOutOfBoundsException("Index out of bounds, row: " + row + ", col: " + col);
 
         int idx = coordinateToArrayIndex(row, col);
-        grid[row-1][col-1] = idx + 1; // opens the site
+        grid[row-1][col-1] = true; // opens the site
 
         if (N == 1) {
             uf.union(virtualTop, idx);
@@ -69,7 +69,7 @@ public class Percolation {
 
         if (row <= 0 || col <=0 || row > N || col > N)
             throw new IndexOutOfBoundsException("Index out of bounds, row: " + row + ", col: " + col);
-        return grid[row-1][col-1] != 0;
+        return grid[row-1][col-1];
 
     }
 
@@ -94,10 +94,7 @@ public class Percolation {
         /** open a virtual top site and a virtual bottom site,
          and check if they are connected.  **/
 
-        if (uf.connected(virtualTop, virtualBtm))
-            return true;
-        else
-            return false;
+        return uf.connected(virtualTop, virtualBtm);
     }
 
     private int coordinateToArrayIndex(int x, int y) {
