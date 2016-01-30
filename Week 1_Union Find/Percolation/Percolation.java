@@ -8,11 +8,18 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
  */
 public class Percolation {
     private boolean[][] grid;
-    private boolean[] last;
     private int N;
     private int count = 0;
     private int virtualTop;
+    private int virtualBtm;
     private WeightedQuickUnionUF uf;
+    private WeightedQuickUnionUF uf2;
+
+    /** Solving the backwash problem by using 2 UF objects.
+     *
+     *  See more at http://www.sigmainfy.com/blog/avoid-backwash-in-percolation.html
+     *
+     */
 
     // create N-by-N grid, with all sites blocked
     public Percolation(int N) {
@@ -20,9 +27,10 @@ public class Percolation {
             throw new IllegalArgumentException("N must be positive.");
         this.N = N;
         virtualTop = N * N;
+        virtualBtm = N * N + 1;
         grid = new boolean[N][N];
-        last = new boolean[N];
         uf = new WeightedQuickUnionUF(N*N+2);
+        uf2 = new WeightedQuickUnionUF(N*N+1);
     }
 
     // open site (row i, column j) if it is not open already
@@ -36,33 +44,46 @@ public class Percolation {
 
         if (N == 1) {
             uf.union(virtualTop, idx);
-//            uf.union(virtualBtm, idx);
+            uf.union(virtualBtm, idx);
+            uf2.union(virtualTop, idx);
             return;
         }
 
-        if (col-1 >= 1 && isOpen(row, col-1))       // left site exists and is open
+        if (col-1 >= 1 && isOpen(row, col-1)) {      // left site exists and is open
             uf.union(idx-1, idx);       // Union the site to the left
-        if (col+1 <= N && isOpen(row, col+1))       // right site exists and is open
+            uf2.union(idx-1, idx);
+        }
+        if (col+1 <= N && isOpen(row, col+1)) {      // right site exists and is open
             uf.union(idx+1, idx);       // Union the site to the right
+            uf2.union(idx+1, idx);
+        }
 
         if (row == 1) {
             uf.union(virtualTop, idx);  // Union the virtual top site
-            if (isOpen(row+1, col))
+            uf2.union(virtualTop, idx);
+            if (isOpen(row+1, col)) {
                 uf.union(idx+N, idx);   // Union the site below
+                uf2.union(idx+N, idx);   // Union the site below
+            }
             return;
         }
         if (row == N) {
-            last[col-1] = true;
-            if (isOpen(row-1, col))
+            uf.union(virtualBtm, idx);  // Union the virtual bottom site
+            if (isOpen(row-1, col)) {
                 uf.union(idx-N, idx);   // Union the site above
+                uf2.union(idx-N, idx);   // Union the site above
+            }
             return;
         }
 
-        if (isOpen(row-1, col))
+        if (isOpen(row-1, col)) {
             uf.union(idx-N, idx); // Union the site above
-        if (isOpen(row+1, col))
+            uf2.union(idx-N, idx);
+        }
+        if (isOpen(row+1, col)) {
             uf.union(idx+N, idx);   // Union the site below
-
+            uf2.union(idx+N, idx);
+        }
     }
 
     public boolean isOpen(int row, int col) {
@@ -85,7 +106,7 @@ public class Percolation {
 
         int idx = coordinateToArrayIndex(row, col);
 
-        return uf.connected(virtualTop, idx);
+        return uf2.connected(virtualTop, idx);
 
     }
 
@@ -94,12 +115,7 @@ public class Percolation {
         /** open a virtual top site and a virtual bottom site,
          and check if they are connected.  **/
 
-        for (int i = 0; i < N; i++) {
-            if (!last[i]) continue;
-            if (!uf.connected(virtualTop, coordinateToArrayIndex(N-1, i+1))) continue;
-            return true;
-        }
-        return false;
+        return uf.connected(virtualTop, virtualBtm);
     }
 
     private int coordinateToArrayIndex(int x, int y) {
