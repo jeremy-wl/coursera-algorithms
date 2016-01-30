@@ -16,80 +16,55 @@ public class Percolation {
 
     // create N-by-N grid, with all sites blocked
     public Percolation(int N) {
-
-        try {
-            if (N <= 0)
-                throw new IllegalArgumentException("N must be positive.");
-            this.N = N;
-            virtualTop = N * N;
-            virtualBtm = N * N + 1;
-            grid = new int[N][N];
-            uf = new WeightedQuickUnionUF(N*N+2);
-        }
-        catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
+        if (N <= 0)
+            throw new IllegalArgumentException("N must be positive.");
+        this.N = N;
+        virtualTop = N * N;
+        virtualBtm = N * N + 1;
+        grid = new int[N][N];
+        uf = new WeightedQuickUnionUF(N*N+2);
     }
 
     // open site (row i, column j) if it is not open already
     public void open(int row, int col) {
 
-        try {
+        if (row <= 0 || col <=0 || row > N || col > N)
+            throw new IndexOutOfBoundsException("Index out of bounds, row: " + row + ", col: " + col);
 
-            if (row <= 0 || col <=0 || row > N || col > N)
-                throw new IndexOutOfBoundsException("Index out of bounds, row: " + row + ", col: " + col);
+        int idx = coordinateToArrayIndex(row, col);
+        grid[row-1][col-1] = idx + 1; // opens the site
 
-            int idx = coordinateToArrayIndex(row, col);
-            grid[row-1][col-1] = idx + 1; // opens the site
+        if (col-1 >= 1 && isOpen(row, col-1))       // left site exists and is open
+            uf.union(idx-1, idx);       // Union the site to the left
+        if (col+1 <= N && isOpen(row, col+1))       // right site exists and is open
+            uf.union(idx+1, idx);       // Union the site to the right
 
-            if (isOpen(row, col-1))             // left site is open
-                uf.union(idx-1, idx);       // Union the site to the left
-            if (isOpen(row, col+1)) {           // right site is open
-                uf.union(idx+1, idx);       // Union the site to the right
-            }
-
-            if (row == 1) {
-                uf.union(virtualTop, idx);  // Union the virtual top site
-                if (isOpen(row+1, col))
-                    uf.union(idx+N, idx);   // Union the site below
-                return;
-            }
-            if (row == N) {
-                uf.union(virtualBtm, idx);  // Union the virtual bottom site
-                if (isOpen(row-1, col))
-                    uf.union(idx-N, idx);   // Union the site above
-                return;
-            }
-
-            if (isOpen(row-1, col))
-                uf.union(idx-N, idx); // Union the site above
+        if (row == 1) {
+            uf.union(virtualTop, idx);  // Union the virtual top site
             if (isOpen(row+1, col))
                 uf.union(idx+N, idx);   // Union the site below
+            return;
+        }
+        if (row == N) {
+            uf.union(virtualBtm, idx);  // Union the virtual bottom site
+            if (isOpen(row-1, col))
+                uf.union(idx-N, idx);   // Union the site above
+            return;
+        }
 
-        }
-        catch (IndexOutOfBoundsException e) {
-//            System.out.println(e.getMessage());
-        }
+        if (isOpen(row-1, col))
+            uf.union(idx-N, idx); // Union the site above
+        if (isOpen(row+1, col))
+            uf.union(idx+N, idx);   // Union the site below
 
     }
 
     public boolean isOpen(int row, int col) {
 
-        try {
-            if (row <= 0 || col <=0 || row > N || col > N)
-                throw new IndexOutOfBoundsException("Index out of bounds, row: " + row + ", col: " + col);
+        if (row <= 0 || col <=0 || row > N || col > N)
+            throw new IndexOutOfBoundsException("Index out of bounds, row: " + row + ", col: " + col);
+        return grid[row-1][col-1] != 0;
 
-            if (grid[row-1][col-1] == 0)
-                return false;
-            else
-                return true;
-        }
-
-        catch (IndexOutOfBoundsException e) {
-//            System.out.println(e.getMessage());
-            return false;
-        }
 
     }
 
@@ -100,21 +75,13 @@ public class Percolation {
 
     public boolean isFull(int row, int col) {
 
-        try {
-            if (row <= 0 || col <= 0 || row > N || col > N)
-                throw new IndexOutOfBoundsException("Index out of bounds, row: " + row + ", col: " + col);
+        if (row <= 0 || col <= 0 || row > N || col > N)
+            throw new IndexOutOfBoundsException("Index out of bounds, row: " + row + ", col: " + col);
 
-            int idx = coordinateToArrayIndex(row, col);
-            if (uf.connected(virtualTop, idx))
-                return true;
-            else
-                return false;
-        }
+        int idx = coordinateToArrayIndex(row, col);
 
-        catch (IndexOutOfBoundsException e) {
-//            System.out.println(e.getMessage());
-            return false;
-        }
+        return uf.connected(virtualTop, idx);
+
     }
 
     public boolean percolates() {
