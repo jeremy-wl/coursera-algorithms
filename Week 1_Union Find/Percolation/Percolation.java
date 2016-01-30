@@ -34,6 +34,12 @@ public class Percolation {
         int idx = coordinateToArrayIndex(row, col);
         grid[row-1][col-1] = idx + 1; // opens the site
 
+        if (N == 1) {
+            uf.union(virtualTop, idx);
+            uf.union(virtualBtm, idx);
+            return;
+        }
+
         if (col-1 >= 1 && isOpen(row, col-1))       // left site exists and is open
             uf.union(idx-1, idx);       // Union the site to the left
         if (col+1 <= N && isOpen(row, col+1))       // right site exists and is open
@@ -64,7 +70,6 @@ public class Percolation {
         if (row <= 0 || col <=0 || row > N || col > N)
             throw new IndexOutOfBoundsException("Index out of bounds, row: " + row + ", col: " + col);
         return grid[row-1][col-1] != 0;
-
 
     }
 
