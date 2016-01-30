@@ -9,7 +9,6 @@ import edu.princeton.cs.algs4.StdStats;
 public class PercolationStats {
     private int T;
     private double[] stats;
-    private Percolation per;
     private int N;
 
     // perform T independent experiments on an N-by-N grid
@@ -20,7 +19,7 @@ public class PercolationStats {
         this.N = N;
         stats = new double[T];
         for (int i = 0; i < T; i++) {
-            per = new Percolation(N);
+            Percolation per = new Percolation(N);
             stats[i] = this.getPercolationThreshold(per);
         }
     }
