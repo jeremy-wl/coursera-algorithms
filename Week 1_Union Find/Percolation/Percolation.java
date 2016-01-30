@@ -8,10 +8,10 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
  */
 public class Percolation {
     private boolean[][] grid;
+    private boolean[] last;
     private int N;
     private int count = 0;
     private int virtualTop;
-    private int virtualBtm;
     private WeightedQuickUnionUF uf;
 
     // create N-by-N grid, with all sites blocked
@@ -20,8 +20,8 @@ public class Percolation {
             throw new IllegalArgumentException("N must be positive.");
         this.N = N;
         virtualTop = N * N;
-        virtualBtm = N * N + 1;
         grid = new boolean[N][N];
+        last = new boolean[N];
         uf = new WeightedQuickUnionUF(N*N+2);
     }
 
@@ -36,7 +36,7 @@ public class Percolation {
 
         if (N == 1) {
             uf.union(virtualTop, idx);
-            uf.union(virtualBtm, idx);
+//            uf.union(virtualBtm, idx);
             return;
         }
 
@@ -52,7 +52,7 @@ public class Percolation {
             return;
         }
         if (row == N) {
-            uf.union(virtualBtm, idx);  // Union the virtual bottom site
+            last[col-1] = true;
             if (isOpen(row-1, col))
                 uf.union(idx-N, idx);   // Union the site above
             return;
@@ -94,7 +94,12 @@ public class Percolation {
         /** open a virtual top site and a virtual bottom site,
          and check if they are connected.  **/
 
-        return uf.connected(virtualTop, virtualBtm);
+        for (int i = 0; i < N; i++) {
+            if (!last[i]) continue;
+            if (!uf.connected(virtualTop, coordinateToArrayIndex(N-1, i+1))) continue;
+            return true;
+        }
+        return false;
     }
 
     private int coordinateToArrayIndex(int x, int y) {
