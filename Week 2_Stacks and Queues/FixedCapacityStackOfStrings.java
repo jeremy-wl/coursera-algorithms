@@ -18,7 +18,11 @@ public class FixedCapacityStackOfStrings {
     }
 
     public String pop() {
-        return s[--N];
+        String item = s[--N];
+        s[N] = null;
+        // Avoids loitering
+        // Reclaims memory if no outstanding references
+        return item;
     }
 
 }
