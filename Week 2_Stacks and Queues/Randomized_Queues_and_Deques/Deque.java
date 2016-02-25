@@ -35,6 +35,8 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     public void addFirst(Item item) {
+        if (item == null)
+            throw new java.lang.NullPointerException("Item cannot be null");
         Node<Item> oldFirst = first;
         first = new Node<Item>();
         first.item = item;
@@ -47,6 +49,8 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     public void addLast(Item item) {
+        if (item == null)
+            throw new java.lang.NullPointerException("Item cannot be null");
         Node<Item> oldLast = last;
         last = new Node<>();
         last.item = item;
