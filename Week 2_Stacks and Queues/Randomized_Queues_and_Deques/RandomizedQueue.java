@@ -1,6 +1,3 @@
-package Randomized_Queues_and_Deques;
-
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;

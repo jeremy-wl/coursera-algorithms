@@ -1,7 +1,3 @@
-package Randomized_Queues_and_Deques;
-
-import edu.princeton.cs.algs4.In;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
