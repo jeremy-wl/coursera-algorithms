@@ -109,26 +109,4 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     }
 
-    public static void main(String[] args) {
-        RandomizedQueue rq = new RandomizedQueue();
-        rq.enqueue(10);
-        rq.size();
-        rq.enqueue(10);
-        rq.enqueue(10);
-        rq.enqueue(10);
-        rq.enqueue(10);
-        rq.enqueue(10);
-        rq.enqueue(10);
-        rq.enqueue(10);
-        rq.enqueue(10);
-
-        rq.dequeue();
-        rq.dequeue();
-        rq.dequeue();
-        rq.dequeue();
-        rq.dequeue();
-        rq.dequeue();
-        rq.dequeue();
-        rq.dequeue();
-    }
 }

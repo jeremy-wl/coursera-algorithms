@@ -1,3 +1,7 @@
+/**
+ * Created by Jeremy on 2/25/16.
+ */
+
 import edu.princeton.cs.algs4.StdIn;
 
 /**
@@ -21,11 +25,6 @@ import edu.princeton.cs.algs4.StdIn;
  * *
  * */
 
-
-
-/**
- * Created by Jeremy on 2/25/16.
- */
 public class Subset {
     public static void main(String[] args) {
 
