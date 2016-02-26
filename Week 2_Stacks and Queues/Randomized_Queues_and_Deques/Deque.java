@@ -65,7 +65,7 @@ public class Deque<Item> implements Iterable<Item> {
             throw new java.util.NoSuchElementException("Stack underflow.");
         Item item = first.item;
         if (N == 1) {
-            first = null;
+            first = last = null;
             N--;
             return item;
         }
