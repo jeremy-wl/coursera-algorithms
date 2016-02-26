@@ -28,21 +28,26 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private void resize(int capacity) {
         Item[] copy = (Item[]) new Object[capacity];
+        int j = 0;
         for (int i = 0; i < N; i++) {
             if (items[i] == null)
                 continue;
-            copy[i] = items[i];
+            copy[j] = items[i];
+            j++;
         }
+        N = num;
         items = copy;
     }
 
     public void enqueue(Item item) {
         if (item == null)
             throw new java.lang.NullPointerException("Item cannot be null");
-        if (N == items.length)
+        if (N == items.length && num > 0)
             resize(num << 1);
-        items[num++] = item;
-        N++;
+        if (num == 0)
+            resize(2);
+        items[N++] = item;
+        num++;
     }
 
     public Item dequeue() {
@@ -54,7 +59,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         items[randomInt] = null;
         num--;
 
-        if (num > 0 && N == num/4)
+        if (num == N/4 && num > 0)
             resize(N >> 1);
 
         return item;
@@ -105,27 +110,25 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public static void main(String[] args) {
-        RandomizedQueue<Integer> rq = new RandomizedQueue<>();
+        RandomizedQueue rq = new RandomizedQueue();
+        rq.enqueue(10);
+        rq.size();
+        rq.enqueue(10);
+        rq.enqueue(10);
+        rq.enqueue(10);
+        rq.enqueue(10);
+        rq.enqueue(10);
+        rq.enqueue(10);
+        rq.enqueue(10);
+        rq.enqueue(10);
 
-        rq.enqueue(1);
-        rq.enqueue(2);
-        rq.enqueue(3);
-        rq.enqueue(4);
-        rq.enqueue(5);
-        rq.enqueue(6);
-
-
-        System.out.println();System.out.println();
-
-        System.out.println("Dequeued: " + rq.dequeue());
-        System.out.println("Dequeued: " + rq.dequeue());
-
-
-        for (Integer a: rq) {
-            System.out.println(a);
-        }
-
-        System.out.println();System.out.println();
-
+        rq.dequeue();
+        rq.dequeue();
+        rq.dequeue();
+        rq.dequeue();
+        rq.dequeue();
+        rq.dequeue();
+        rq.dequeue();
+        rq.dequeue();
     }
 }
