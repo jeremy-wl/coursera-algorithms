@@ -140,7 +140,7 @@ public class Selection {
      */
     public static void main(String[] args) {
         String[] a = StdIn.readAllStrings();
-        Selection.sort(a);
+        SelectionSort.sort(a);
         show(a);
     }
 }

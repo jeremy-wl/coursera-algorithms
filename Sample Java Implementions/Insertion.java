@@ -156,7 +156,7 @@ public class Insertion {
      */
     public static void main(String[] args) {
         String[] a = StdIn.readAllStrings();
-        Insertion.sort(a);
+        InsertionSort.sort(a);
         show(a);
     }
 }
