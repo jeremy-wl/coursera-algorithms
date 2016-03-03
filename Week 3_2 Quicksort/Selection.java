@@ -2,6 +2,19 @@
  * Created by Jeremy on 3/3/16.
  */
 
+
+/**
+ *
+ * Partition array so that:
+    - Entry a[j] is in place.
+    - No larger entry to the left of j.
+    - No smaller entry to the right of j.
+
+ * Repeat in one subarray, depending on j; finished when j equals k.
+
+ *
+ * **/
+
 public class Selection {  // find the (k)th largest element
 
     public static Comparable select(Comparable[] a, int k) {

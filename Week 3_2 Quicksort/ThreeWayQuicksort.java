@@ -3,6 +3,21 @@ import java.util.Arrays;
 /**
  * Created by Jeremy on 3/3/16.
  */
+
+
+/**
+ *
+ *  Let v be partitioning item a[lo].
+
+    Scan i from left to right.
+     – (a[i] < v): exchange a[lt] with a[i]; increment both lt and i
+     – (a[i] > v): exchange a[gt] with a[i]; decrement gt
+     – (a[i] == v): increment i
+
+ *
+ * */
+
+
 public class ThreeWayQuicksort {
 
     public static void sort(Comparable[] a, int lo, int hi) {

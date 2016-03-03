@@ -1,6 +1,21 @@
 /**
  * Created by Jeremy on 3/2/16.
  */
+
+
+/**
+ *
+ * Repeat until i and j pointers cross.
+    - Scan i from left to right so long as (a[i] < a[lo]).
+    - Scan j from right to left so long as (a[j] > a[lo]).
+    - Exchange a[i] with a[j].
+
+ * When pointers cross.
+    - Exchange a[lo] with a[j].
+
+ *
+ * **/
+
 public class Quicksort {
 
     public static int partition(Comparable[] a, int lo, int hi) {
