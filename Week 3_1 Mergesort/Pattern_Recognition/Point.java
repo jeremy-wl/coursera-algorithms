@@ -12,6 +12,7 @@ package Pattern_Recognition;
 
 import java.util.Comparator;
 import edu.princeton.cs.algs4.StdDraw;
+import edu.princeton.cs.algs4.StdRandom;
 
 public class Point implements Comparable<Point> {
 
@@ -61,7 +62,16 @@ public class Point implements Comparable<Point> {
      * @return the slope between this point and the specified point
      */
     public double slopeTo(Point that) {
-        /* YOUR CODE HERE */
+
+        int x0 = this.x, y0 = this.y;
+        int x1 = that.x, y1 = that.y;
+
+        if (x0 == x1 && y0 != y1)
+            return Double.POSITIVE_INFINITY;
+        else if (x0 == x1 && y0 == y1)
+            return Double.NEGATIVE_INFINITY;
+        else
+            return (double) (y0-y1) / (x0-x1);
     }
 
     /**
@@ -77,7 +87,16 @@ public class Point implements Comparable<Point> {
      *         argument point
      */
     public int compareTo(Point that) {
-        /* YOUR CODE HERE */
+
+        int x0 = this.x, y0 = this.y;
+        int x1 = that.x, y1 = that.y;
+
+        if (x0 == x1 && y0 == y1)
+            return 0;
+        else if (y0 < y1 || y0 == y1 && x0 < x1)
+            return -1;
+        else
+            return 1;
     }
 
     /**
@@ -86,8 +105,16 @@ public class Point implements Comparable<Point> {
      *
      * @return the Comparator that defines this ordering on points
      */
-    public Comparator<Point> slopeOrder() {
-        /* YOUR CODE HERE */
+    public static Comparator<Point> slopeOrder() {
+        return new BySlope();
+    }
+
+    private static class BySlope implements Comparator<Point> {
+
+        public int compare(Point p0, Point p1) {
+            return p0.compareTo(p1);
+        }
+
     }
 
 
@@ -107,6 +134,42 @@ public class Point implements Comparable<Point> {
      * Unit tests the Point data type.
      */
     public static void main(String[] args) {
-        /* YOUR CODE HERE */
+
+        // TODO main
+
+        Point[] points = new Point[200];
+        for (int i = 0; i < 200; i++) {
+            int r1 = StdRandom.uniform(200);
+            int r2 = StdRandom.uniform(200);
+            points[i] = new Point(r1, r2);
+        }
+
+        // draw the points
+        StdDraw.show(0);
+        StdDraw.setXscale(0, 200);
+        StdDraw.setYscale(0, 200);
+        StdDraw.setPenColor(StdDraw.RED);
+        StdDraw.setPenRadius(0.01);
+
+        for (Point p : points) {
+            p.draw();
+        }
+        StdDraw.show();
+
+        BruteCollinearPoints collinear = new BruteCollinearPoints(points);
+
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.setPenRadius(0.001);
+
+        for (LineSegment segment : collinear.segments()) {
+
+            if (segment == null)
+                break;
+
+            System.out.println(segment);
+
+            segment.draw();
+        }
+
     }
 }
