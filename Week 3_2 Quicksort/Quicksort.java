@@ -20,20 +20,16 @@ public class Quicksort {
 
     public static int partition(Comparable[] a, int lo, int hi) {
 
-        int i = lo + 1, j = hi;
+        int i = lo, j = hi + 1;
 
         while (true) {
 
-            while (Utils.less(a[i], a[lo])) { // find the left item to swap
-                i++;
+            while (Utils.less(a[++i], a[lo])) // find the left item to swap
                 if (i == hi)
                     break;
-            }
-            while (Utils.less(a[lo], a[j])) { // find the right item to swap
-                j--;
+            while (Utils.less(a[lo], a[--j])) // find the right item to swap
                 if (j == lo)
                     break;
-            }
 
             if (j <= i)
                 break;
