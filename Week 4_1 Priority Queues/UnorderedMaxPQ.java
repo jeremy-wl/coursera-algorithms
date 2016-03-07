@@ -17,6 +17,10 @@ public class UnorderedMaxPQ<Key extends Comparable<Key>> {
         pq[N++] = item;
     }
 
+    public int size() {
+        return N;
+    }
+
     public Key delMax() {
         int max = 0;
         for (int i = 0; i < N; i++)
@@ -24,6 +28,22 @@ public class UnorderedMaxPQ<Key extends Comparable<Key>> {
                 max = i;
         Utils.exchange(pq, max, N-1);
         return pq[--N];
+    }
+
+    public static void main(String[] args) {
+        int N = 20;
+        int MAX = 5;
+        UnorderedMaxPQ<Transaction> pq = new UnorderedMaxPQ<>(N);
+
+        while (StdIn.hasNextLine()) {
+            String line = StdIn.readLine();
+            Transaction item = new Transaction(line);
+            pq.insert(item);
+
+            if (pq.size() > MAX) {
+                pq.delMax();
+            }
+        }
     }
 
 }
