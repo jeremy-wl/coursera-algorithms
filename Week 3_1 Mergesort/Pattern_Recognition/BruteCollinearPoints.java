@@ -1,6 +1,7 @@
 package Pattern_Recognition;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * Created by Jeremy on 3/4/16.
@@ -44,9 +45,14 @@ public class BruteCollinearPoints {
                             if (points[j].slopeTo(points[p]) == (points[p].slopeTo(points[q]))) {
 
                                 Point[] points2 = {points[i], points[j], points[p], points[q]};
-                                Arrays.sort(points2, Point.slopeOrder());
+                                Arrays.sort(points2, new Comparator<Point>() {
+                                    @Override
+                                    public int compare(Point o1, Point o2) {
+                                        return o1.compareTo(o2);
+                                    }
+                                });
 
-                                lineSegments[++segments-1] = new LineSegment(points2[0], points2[3]);
+                                lineSegments[segments++] = new LineSegment(points2[0], points2[3]);
 
                                 if (segments == lineSegments.length)
                                     resize(segments << 1);
