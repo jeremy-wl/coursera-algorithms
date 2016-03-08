@@ -24,10 +24,20 @@ public class UnorderedMaxPQ<Key extends Comparable<Key>> {
     public Key delMax() {
         int max = 0;
         for (int i = 0; i < N; i++)
-            if (Utils.less(pq[max], pq[i]))
+            if (less(max, i))
                 max = i;
-        Utils.exchange(pq, max, N-1);
+        exchange(max, N-1);
         return pq[--N];
+    }
+
+    private boolean less(int i, int j) {
+        return pq[i].compareTo(pq[j]) < 0;
+    }
+
+    private void exchange(int i, int j) {
+        Key temp = pq[i];
+        pq[i] = pq[j];
+        pq[j] = temp;
     }
 
     public static void main(String[] args) {
