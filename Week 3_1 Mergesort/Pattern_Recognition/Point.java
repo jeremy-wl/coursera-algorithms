@@ -258,7 +258,7 @@ public class Point implements Comparable<Point> {
         }
         StdDraw.show();
 
-        BruteCollinearPoints collinear = new BruteCollinearPoints(points);
+        FastCollinearPoints collinear = new FastCollinearPoints(points);
 
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.setPenRadius(0.001);

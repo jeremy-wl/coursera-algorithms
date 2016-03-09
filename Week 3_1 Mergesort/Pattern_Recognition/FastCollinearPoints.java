@@ -7,9 +7,9 @@ import java.util.Stack;
  * Created by Jeremy on 3/4/16.
  */
 public class FastCollinearPoints {
-    int segments;
-    Point[] points;
-    LineSegment[] lineSegments;
+    private int segments;
+    private Point[] points;
+    private LineSegment[] lineSegments;
 
     public FastCollinearPoints(Point[] points) {    // finds all line segments containing 4 or more points
         if (points == null)
@@ -43,7 +43,7 @@ public class FastCollinearPoints {
         while (!s.isEmpty()) {
 
             Point p = s.pop();
-//            Arrays.sort(points);
+            Arrays.sort(points);
 
             Arrays.sort(points, p.slopeOrder());
             int count = 1;
@@ -52,15 +52,16 @@ public class FastCollinearPoints {
                 Point p0 = points[i-1];
                 double k0 = p0.slopeTo(p);
 
-                while (p.slopeTo(points[i++]) == k0) {
+                while (p.slopeTo(points[i]) == k0 && i < N) {
+                    i++;
                     count++;
                     if (i >= N)
                         break;
                 }
 
-                if (count >= 4) {
+                if (count >= 3) {  // 4 pts altogether with p
 
-                    lineSegments[segments++] = new LineSegment(p, points[i-1]);
+                    lineSegments[segments++] = new LineSegment(p0, points[i-1]);
 
                     if (segments == lineSegments.length)
                         resize(segments << 1);

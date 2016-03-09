@@ -7,9 +7,9 @@ import java.util.Comparator;
  * Created by Jeremy on 3/4/16.
  */
 public class BruteCollinearPoints {
-    int segments;
-    Point[] points;
-    LineSegment[] lineSegments;
+    private int segments;
+    private Point[] points;
+    private LineSegment[] lineSegments;
 
     public BruteCollinearPoints(Point[] points) {   // finds all line segments containing 4 points
         if (points == null)
