@@ -65,7 +65,9 @@ public class Point implements Comparable<Point> {
         int x0 = this.x, y0 = this.y;
         int x1 = that.x, y1 = that.y;
 
-        if (x0 == x1 && y0 != y1)
+        if (x0 != x1 && y0 == y1)
+            return +0.0;
+        else if (x0 == x1 && y0 != y1)
             return Double.POSITIVE_INFINITY;
         else if (x0 == x1 && y0 == y1)
             return Double.NEGATIVE_INFINITY;
@@ -264,9 +266,6 @@ public class Point implements Comparable<Point> {
         StdDraw.setPenRadius(0.001);
 
         for (LineSegment segment : collinear.segments()) {
-
-            if (segment == null)
-                break;
 
             System.out.println(segment);
 

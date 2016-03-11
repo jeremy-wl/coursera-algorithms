@@ -36,11 +36,10 @@ public class BruteCollinearPoints {
     public LineSegment[] segments() {   // the line segments
         int N = points.length;
 
-        for (int i = 0; i < N; i++) {
-            for (int j = i+1; j < N; j++) {
-                for (int p = j+1; p < N; p++) {
-                    for (int q = p+1; q < N; q++) {
-
+        for (int i = 0; i < N; i++)
+            for (int j = i+1; j < N; j++)
+                for (int p = j+1; p < N; p++)
+                    for (int q = p+1; q < N; q++)
                         if (points[i].slopeTo(points[j]) == (points[j].slopeTo(points[p])))
                             if (points[j].slopeTo(points[p]) == (points[p].slopeTo(points[q]))) {
 
@@ -58,10 +57,9 @@ public class BruteCollinearPoints {
                                     resize(segments << 1);
 
                             }
-                    }
-                }
-            }
-        }
+
+        if (segments != lineSegments.length)
+            resize(segments);
         return lineSegments;
     }
 
@@ -71,6 +69,8 @@ public class BruteCollinearPoints {
         lineSegments = new LineSegment[capacity];
 
         for (int i = 0; i < temp.length; i++) {
+            if (temp[i] == null)
+                break;
             lineSegments[i] = temp[i];
         }
 

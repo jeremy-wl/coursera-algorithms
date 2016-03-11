@@ -73,6 +73,9 @@ public class FastCollinearPoints {
 
         }
 
+        if (segments != lineSegments.length)
+            resize(segments);
+
         return lineSegments;
     }
 
@@ -81,6 +84,8 @@ public class FastCollinearPoints {
         lineSegments = new LineSegment[capacity];
 
         for (int i = 0; i < temp.length; i++) {
+            if (temp[i] == null)
+                break;
             lineSegments[i] = temp[i];
         }
     }
