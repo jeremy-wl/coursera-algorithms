@@ -1,7 +1,6 @@
 package Pattern_Recognition;
 
 import java.util.Arrays;
-import java.util.Stack;
 
 /**
  * Created by Jeremy on 3/4/16.
@@ -36,32 +35,34 @@ public class FastCollinearPoints {
     public LineSegment[] segments() {               // the line segments
         int N = points.length;
 
-        Stack<Point> s = new Stack<>();
-        for (Point p: points)
-            s.push(p);
 
-        while (!s.isEmpty()) {
+        Point[] points2 = new Point[N];
+        System.arraycopy(points, 0, points2, 0, N);
 
-            Point p = s.pop();
-            Arrays.sort(points);
+        Arrays.sort(points2);
 
-            Arrays.sort(points, p.slopeOrder());
+        for (int i = 0; i < N; i++) {
+
             int count = 1;
+            Point p = points2[i];
 
-            for (int i = 1; i < N; i++) {
-                Point p0 = points[i-1];
+            Arrays.sort(points);
+            Arrays.sort(points, p.slopeOrder());
+
+            for (int j = 1; j < N; j++) {
+                Point p0 = points[j-1];
                 double k0 = p0.slopeTo(p);
 
-                while (p.slopeTo(points[i]) == k0 && i < N) {
-                    i++;
+                while (p.slopeTo(points[j]) == k0 && j < N) {
+                    j++;
                     count++;
-                    if (i >= N)
+                    if (j >= N)
                         break;
                 }
 
-                if (count >= 3) {  // 4 pts altogether with p
+                if (count >= 3 && p.compareTo(p0) < 0) {  // 4 pts altogether with p; create a new seg only if p is lower than any other pts on the same line
 
-                    lineSegments[segments++] = new LineSegment(p0, points[i-1]);
+                    lineSegments[segments++] = new LineSegment(p, points[j-1]);
 
                     if (segments == lineSegments.length)
                         resize(segments << 1);
