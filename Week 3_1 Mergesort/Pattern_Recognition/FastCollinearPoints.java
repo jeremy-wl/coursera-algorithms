@@ -35,9 +35,11 @@ public class FastCollinearPoints {
     public LineSegment[] segments() {               // the line segments
         int N = points.length;
 
-
         Point[] points2 = new Point[N];
-        System.arraycopy(points, 0, points2, 0, N);
+        Point[] points = new Point[N];
+
+        System.arraycopy(this.points, 0, points2, 0, N);
+        System.arraycopy(this.points, 0, points, 0, N);
 
         Arrays.sort(points2);
 
