@@ -26,20 +26,14 @@ public class FastCollinearPoints {
         this.points = points;
         segments = 0;
         lineSegments = new LineSegment[2];
-    }
 
-    public int numberOfSegments() {       // the number of line segments
-        return segments;
-    }
-
-    public LineSegment[] segments() {               // the line segments
         int N = points.length;
 
         Point[] points2 = new Point[N];
-        Point[] points = new Point[N];
+        Point[] points0 = new Point[N];
 
         System.arraycopy(this.points, 0, points2, 0, N);
-        System.arraycopy(this.points, 0, points, 0, N);
+        System.arraycopy(this.points, 0, points0, 0, N);
 
         Arrays.sort(points2);
 
@@ -48,14 +42,14 @@ public class FastCollinearPoints {
             int count = 1;
             Point p = points2[i];
 
-            Arrays.sort(points);
-            Arrays.sort(points, p.slopeOrder());
+            Arrays.sort(points0);
+            Arrays.sort(points0, p.slopeOrder());
 
             for (int j = 1; j < N; j++) {
-                Point p0 = points[j-1];
+                Point p0 = points0[j-1];
                 double k0 = p0.slopeTo(p);
 
-                while (p.slopeTo(points[j]) == k0 && j < N) {
+                while (p.slopeTo(points0[j]) == k0 && j < N) {
                     j++;
                     count++;
                     if (j >= N)
@@ -64,7 +58,7 @@ public class FastCollinearPoints {
 
                 if (count >= 3 && p.compareTo(p0) < 0) {  // 4 pts altogether with p; create a new seg only if p is lower than any other pts on the same line
 
-                    lineSegments[segments++] = new LineSegment(p, points[j-1]);
+                    lineSegments[segments++] = new LineSegment(p, points0[j-1]);
 
                     if (segments == lineSegments.length)
                         resize(segments << 1);
@@ -78,8 +72,14 @@ public class FastCollinearPoints {
 
         if (segments != lineSegments.length)
             resize(segments);
+    }
 
-        return lineSegments;
+    public int numberOfSegments() {       // the number of line segments
+        return segments;
+    }
+
+    public LineSegment[] segments() {               // the line segments
+        return lineSegments == null ? null : lineSegments.clone();
     }
 
     private void resize(int capacity) {

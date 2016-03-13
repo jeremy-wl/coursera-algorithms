@@ -27,13 +27,7 @@ public class BruteCollinearPoints {
         this.points = points;
         segments = 0;
         lineSegments = new LineSegment[2];
-    }
 
-    public int numberOfSegments() {   // the number of line segments
-        return segments;
-    }
-
-    public LineSegment[] segments() {   // the line segments
         int N = points.length;
 
         for (int i = 0; i < N; i++)
@@ -60,7 +54,14 @@ public class BruteCollinearPoints {
 
         if (segments != lineSegments.length)
             resize(segments);
-        return lineSegments;
+    }
+
+    public int numberOfSegments() {   // the number of line segments
+        return segments;
+    }
+
+    public LineSegment[] segments() {   // the line segments
+        return lineSegments == null ? null : lineSegments.clone();
     }
 
     private void resize(int capacity) {
