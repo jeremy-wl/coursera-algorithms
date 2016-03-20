@@ -1,4 +1,4 @@
-import java.util.Iterator;
+import edu.princeton.cs.algs4.Queue;
 
 /**
  * Created by Jeremy on 3/15/16.
@@ -65,6 +65,21 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         return x.count;
     }
 
+    public Iterable<Key> keys() {
+        Queue<Key> q = new Queue<Key>();
+        inorder(root, q);
+        return q;
+    }
+
+    private void inorder(Node root, Queue<Key> q) {
+        if (root == null)
+            return;
+
+        inorder(root.left, q);
+        q.enqueue(root.key);
+        inorder(root.right, q);
+    }
+
     public static void main(String[] args) {
         BinarySearchTree bst = new BinarySearchTree();
         bst.put("E", 1);
@@ -74,6 +89,8 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         bst.put("L", 1);
         bst.put("P", 1);
 
-        System.out.println(bst.get("P"));
+        for (Object a : bst.keys()) {
+            System.out.println(a);
+        }
     }
 }
