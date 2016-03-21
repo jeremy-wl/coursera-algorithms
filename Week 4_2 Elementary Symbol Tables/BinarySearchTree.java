@@ -97,6 +97,64 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         return root;
     }
 
+    public void delete(Key key) {
+        root = delete(root, key);
+    }
+
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    public Key min() {
+        if (isEmpty())
+            return null;
+        return min(root).key;
+    }
+
+    private Node min(Node root) {
+        if (root.left == null)
+            return root;
+        else
+            return min(root.left);
+    }
+
+    public Key max() {
+        if (isEmpty())
+            return null;
+        return max(root).key;
+    }
+
+    private Node max(Node root) {
+        if (root.right == null)
+            return root;
+        else
+            return max(root.right);
+    }
+
+    private Node delete(Node root, Key key) {
+        if (root == null)
+            return null;
+
+        int cmp = key.compareTo(root.key);
+
+        if (cmp < 0)
+            root.left = delete(root.left, key);
+        else if (cmp > 0)
+            root.right = delete(root.right, key);
+        else {
+            if (root.right == null)
+                return root.left;
+
+            Node t = root;
+            root = min(t.right);
+            root.right = delMin(t.right);
+            root.left = t.left;
+        }
+
+        root.count = 1 + size(root.left) + size(root.right);
+        return root;
+    }
+
     public static void main(String[] args) {
         BinarySearchTree bst = new BinarySearchTree();
         bst.put("E", 1);
