@@ -80,6 +80,23 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         inorder(root.right, q);
     }
 
+    public void delMin() {
+        root = delMin(root);
+    }
+
+
+    private Node delMin(Node root) {
+
+        // if the node does not have left child, return its right child to delete the current node
+        if (root.left == null)
+            return root.right;
+
+        root.left = delMin(root.left);
+        root.count = 1 + size(root.left) + size(root.right);
+
+        return root;
+    }
+
     public static void main(String[] args) {
         BinarySearchTree bst = new BinarySearchTree();
         bst.put("E", 1);
