@@ -95,7 +95,7 @@ public class Solver {
         if (!isSolvable())
             return null;
         Stack<Board> s = new Stack<>();
-        for (SearchNode sn = goal; sn.previous != null; sn = sn.previous)
+        for (SearchNode sn = goal; sn != null; sn = sn.previous)
             s.push(sn.board);
         return s;
     }
