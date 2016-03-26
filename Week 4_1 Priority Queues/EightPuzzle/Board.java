@@ -113,7 +113,7 @@ public class Board {
     public Board twin() {                    // a board that is obtained by exchanging any pair of blocks
         if (blocks[0] * blocks[1] != 0)
             return exchange(this, 0, 1);
-        return exchange(this, N-2, N-1);
+        return exchange(this, N*N-2, N*N-1);
     }
 
     public boolean equals(Object y) {        // does this board equal y?
@@ -187,7 +187,9 @@ public class Board {
 //                StdOut.println(board);
 //        }
         int[][] a = {{1,2,3}, {4,5,6}, {7,8,9}};
-        Board b = new Board(a);
-        System.out.println(b.isGoal());
+        int[][] aa = {{5,0,4}, {2,3,8}, {7,1,6}};
+        Board b = new Board(aa);
+        System.out.println(b);
+        System.out.println(b.twin());
     }
 }
