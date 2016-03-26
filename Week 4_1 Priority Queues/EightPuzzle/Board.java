@@ -78,7 +78,7 @@ public class Board {
     public int hamming() {                   // number of blocks out of place
         int count = 0;
         for (int i = 0; i < blocks.length; i++)
-            if (blocks[i] != i+1)
+            if (blocks[i] != i+1 && blocks[i] != 0)
                 count++;
         return count;
     }
