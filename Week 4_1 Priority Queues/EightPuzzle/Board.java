@@ -155,7 +155,14 @@ public class Board {
     }
 
     public String toString() {               // string representation of this board (in the output format specified below)
-        return "";
+        StringBuilder s = new StringBuilder();
+        s.append(N + "\n");
+        for (int i = 0; i < N*N; i++) {
+            s.append(String.format("%2d  ", blocks[i]));
+            if ((i+1) % N == 0)
+                s.append("\n");
+        }
+        return s.toString();
     }
 
     public static void main(String[] args) { // unit tests (not graded)

@@ -110,5 +110,6 @@ public class Solver {
         Solver s = new Solver(b);
         System.out.println(s.isSolvable());
         System.out.println(s.moves());
+        System.out.println(b);
     }
 }
