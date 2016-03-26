@@ -56,6 +56,7 @@ public class Solver {
                 if (sn.previous == null || !sn.previous.board.equals(b)) {  // avoid enqueueing the previous node
                     SearchNode s = new SearchNode(b);
                     s.moves = sn.moves + 1;
+                    s.previous = sn;
                     pq.insert(s);
                 }
             }
@@ -64,17 +65,15 @@ public class Solver {
                 if (snTwin.previous == null || !snTwin.previous.board.equals(b)) {  // avoid enqueueing the previous node
                     SearchNode s = new SearchNode(b);
                     s.moves = snTwin.moves + 1;
+                    s.previous = snTwin;
                     pqTwin.insert(s);
                 }
             }
 
-            SearchNode prev = sn;
             sn = pq.delMin();
-            sn.previous = prev;
 
-            SearchNode prev2 = snTwin;
             snTwin = pqTwin.delMin();
-            snTwin.previous = prev2;
+
         }
         if (sn.board.isGoal())
             goal = sn;
@@ -96,8 +95,8 @@ public class Solver {
         if (!isSolvable())
             return null;
         Stack<Board> s = new Stack<>();
-        for (Board b = goal.board; goal.previous != null; goal = goal.previous)
-            s.push(b);
+        for (SearchNode sn = goal; sn.previous != null; sn = sn.previous)
+            s.push(sn.board);
         return s;
     }
 
@@ -111,5 +110,10 @@ public class Solver {
         System.out.println(s.isSolvable());
         System.out.println(s.moves());
         System.out.println(b);
+
+        System.out.println("Minimum number of moves = " + s.moves());
+        for (Board board : s.solution())
+            System.out.println(board);
+
     }
 }
