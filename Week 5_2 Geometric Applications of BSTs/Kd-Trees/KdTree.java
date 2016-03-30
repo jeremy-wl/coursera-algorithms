@@ -36,8 +36,6 @@ public class KdTree {
     }
 
     public void insert(Point2D p) {             // add the point to the set (if it is not already in the set)
-        if (contains(p))
-            return;
         root = insert(root, p, 0, 0, 1, 0, 1);
         N++;
     }
@@ -48,6 +46,11 @@ public class KdTree {
             n.rect = new RectHV(l, b, r, t);
             return n;
         }
+        else if (p.equals(n.p)) {
+            N--;
+            return n;
+        }
+
         if (level % 2 == 0) {         // even level
             if (n.p.x() >= p.x())
                 n.lb = insert(n.lb, p, level+1, b, t, l, n.p.x());
