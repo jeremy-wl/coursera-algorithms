@@ -135,17 +135,47 @@ public class KdTree {
     }
 
     public Point2D nearest(Point2D p) {            // a nearest neighbor in the set to point p; null if the set is empty
-        Node nearest = nearest(root, p, root);
+        Node nearest = nearest(root, p, root, 0);
         return nearest.p;
     }
 
-    private Node nearest(Node root, Point2D p, Node nearest) {
-        if (root == null || nearest.p.distanceTo(p) < root.rect.distanceTo(p))
+    /**
+     *
+     * The effectiveness of the pruning rule depends on quickly finding a nearby point.
+     *
+     * To do this, organize your recursive method so that when there are two possible subtrees to go down,
+     * you always choose the subtree that is on the same side of the splitting line as the query point as the first subtree
+     * to explore—the closest point found while exploring the first subtree may enable pruning of the second subtree.
+     *
+     * **/
+
+    private Node nearest(Node root, Point2D p, Node nearest, int level) {
+        double nearestDist = nearest.p.distanceTo(p);
+        if (root == null || nearestDist < root.rect.distanceTo(p))
             return nearest;
-        else if (nearest.p.distanceTo(p) > root.p.distanceTo(p))
+        else if (nearestDist > root.p.distanceTo(p))
             nearest = root;
-        nearest = nearest(root.lb, p, nearest);
-        nearest = nearest(root.rt, p, nearest);
+
+        if (level % 2 == 0) {
+            if (p.x() <= root.p.x()) {
+                nearest = nearest(root.lb, p, nearest, level+1);
+                nearest = nearest(root.rt, p, nearest, level+1);
+            }
+            else {
+                nearest = nearest(root.rt, p, nearest, level+1);
+                nearest = nearest(root.lb, p, nearest, level+1);
+            }
+        }
+        else {
+            if (p.y() <= root.p.y()) {
+                nearest = nearest(root.lb, p, nearest, level+1);
+                nearest = nearest(root.rt, p, nearest, level+1);
+            }
+            else {
+                nearest = nearest(root.rt, p, nearest, level+1);
+                nearest = nearest(root.lb, p, nearest, level+1);
+            }
+        }
 
         return nearest;
     }
