@@ -15,11 +15,11 @@ public class PointSET {
     }
 
     public boolean isEmpty() {                     // is the set empty?
-        return this.isEmpty();
+        return this.set.isEmpty();
     }
 
     public int size() {                        // number of points in the set
-        return this.size();
+        return this.set.size();
     }
 
     public void insert(Point2D p) {             // add the point to the set (if it is not already in the set)
@@ -45,8 +45,8 @@ public class PointSET {
             throw new java.lang.NullPointerException();
         Queue<Point2D> q = new Queue<>();
         for (Point2D p : this.set) {
-            if (!(p.x() < rect.xmin()) && !(p.x() > rect.xmax()
-                    && !(p.y() < rect.ymin() && !(p.y() > rect.ymax()))))
+            if ( !(p.x() < rect.xmin()) && !(p.x() > rect.xmax())
+                    && !(p.y() < rect.ymin()) && !(p.y() > rect.ymax()) )
                 q.enqueue(p);
         }
         return q;
