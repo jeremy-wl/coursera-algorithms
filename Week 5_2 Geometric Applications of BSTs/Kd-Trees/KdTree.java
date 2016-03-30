@@ -50,15 +50,15 @@ public class KdTree {
         }
         if (level % 2 == 0) {         // even level
             if (n.p.x() >= p.x())
-                n.lb = insert(n.lb, p, level+1, b, t, l, p.x());
+                n.lb = insert(n.lb, p, level+1, b, t, l, n.p.x());
             else
-                n.rt = insert(n.rt, p, level+1, b, t, p.x(), r);
+                n.rt = insert(n.rt, p, level+1, b, t, n.p.x(), r);
         }
         else {                        // odd level
             if (n.p.y() >= p.y())
-                n.lb = insert(n.lb, p, level+1, b, p.y(), l, r);
+                n.lb = insert(n.lb, p, level+1, b, n.p.y(), l, r);
             else
-                n.rt = insert(n.rt, p, level+1, p.y(), t, l, r);
+                n.rt = insert(n.rt, p, level+1, n.p.y(), t, l, r);
         }
 
         return n;
@@ -75,10 +75,16 @@ public class KdTree {
                 return true;
 
             if (level % 2 == 0) {         // even level
-                n = n.lb;
+                if (n.p.x() >= p.x())
+                    n = n.lb;
+                else
+                    n = n.rt;
             }
-            else {
-                n = n.rt;
+            else {                        // odd level
+                if (n.p.y() >= p.y())
+                    n = n.lb;
+                else
+                    n = n.rt;
             }
 
             level++;
@@ -149,19 +155,16 @@ public class KdTree {
         KdTree t = new KdTree();
 
 
-        t.insert(new Point2D(0.8, 0.8));
-        t.insert(new Point2D(0.5, 0.7));
-        t.insert(new Point2D(0.78, 0.8));
-        t.insert(new Point2D(0.6, 0.68));
-        t.insert(new Point2D(0.4, 0.68));
-        t.insert(new Point2D(0.6, 0.68));
+        t.insert(new Point2D(0.975528, 0.654508));
+        t.insert(new Point2D(0.206107, 0.095492));
+        t.insert(new Point2D(0.500000, 0.000000)); //1
+        t.insert(new Point2D(0.793893, 0.095492)); //2
 
 //        System.out.println(t.nearest(new Point2D(0.3, 0.401)));
 
-        for (Point2D p : t.range(new RectHV(0.5,0.5,0.8,0.8)))
+        for (Point2D p : t.range(new RectHV(0.49, 0, 0.8, 0.1)))
             System.out.println(p);
 
-        t.draw();
     }
 
 }
