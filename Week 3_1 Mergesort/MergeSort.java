@@ -3,49 +3,49 @@
  */
 public class Mergesort {
 
-    public static void merge(Comparable[] a, Comparable aux[], int lo, int mid, int hi) {
+    public static void merge(int[] A, int aux[], int lo, int mid, int hi) {
 
-        // precondition: a[lo .. mid] and a[mid+1 .. hi] are sorted subarrays
-        assert Utils.isSorted(a, lo, mid);
-        assert Utils.isSorted(a, mid+1, hi);
+        // precondition: A[lo .. mid] and A[mid+1 .. hi] are sorted subarrays
+        assert Utils.isSorted(A, lo, mid);
+        assert Utils.isSorted(A, mid+1, hi);
 
         // copy to aux[]
-        for (int i = 0; i < a.length; i++) {
-            aux[i] = a[i];
+        for (int i = 0; i < A.length; i++) {
+            aux[i] = A[i];
         }
 
 
-        // merge back to a[]
+        // merge back to A[]
         int i = lo, j = mid + 1;
 
         for (int k = lo; k <= hi; k++) {
             if (i > mid)
-                a[k] = aux[j++];
+                A[k] = aux[j++];
             else if (j > hi)
-                a[k] = aux[i++];
-            else if (Utils.less(aux[i], aux[j]))
-                a[k] = aux[i++];
+                A[k] = aux[i++];
+            else if (aux[i] < aux[j])
+                A[k] = aux[i++];
             else
-                a[k] = aux[j++];
+                A[k] = aux[j++];
         }
 
-        // postcondition: a[lo .. hi] is sorted
-        assert Utils.isSorted(a, lo, hi);
+        // post condition: A[lo .. hi] is sorted
+        assert Utils.isSorted(A, lo, hi);
 
     }
 
-    public static void sort(Comparable[] a, Comparable[] aux, int lo, int hi) {
+    public static void sort(int[] A, int[] aux, int lo, int hi) {
         if (hi <= lo)  // same as Binary Search
             return;
         int mid = lo + (hi - lo) / 2;  // same as Binary Search
-        sort(a, aux, lo, mid);
-        sort(a, aux, mid+1, hi);
-        merge(a, aux, lo, mid, hi);
+        sort(A, aux, lo, mid);
+        sort(A, aux, mid+1, hi);
+        merge(A, aux, lo, mid, hi);
     }
 
-    public static void sort(Comparable[] a) {
-        Comparable[] aux = new Comparable[a.length];
-        sort(a, aux, 0, a.length-1);
+    public static void sort(int[] A) {
+        int[] aux = new int[A.length];
+        sort(A, aux, 0, A.length-1);
     }
 
 }

@@ -6,7 +6,7 @@
 /**
  *
  * Partition array so that:
-    - Entry a[j] is in place.
+    - Entry A[j] is in place.
     - No larger entry to the left of j.
     - No smaller entry to the right of j.
 
@@ -17,25 +17,25 @@
 
 public class Selection {  // find the (k)th largest element
 
-    public static Comparable select(Comparable[] a, int k) {
+    public static Comparable select(int[] A, int k) {
 
-        StdRandom.shuffle(a);
-        int lo = 0, hi = a.length - 1;
+//        StdRandom.shuffle(A);
+        int lo = 0, hi = A.length - 1;
 
         while (hi > lo) {
 
-            int j = Quicksort.partition(a, lo, hi);
+            int j = Quicksort.partition(A, lo, hi);
 
             if (j > k)
                 hi = j - 1;
             else if (j < k)
                 lo = j + 1;
             else
-                return a[k];
+                return A[k];
 
         }
 
-        return a[k];
+        return A[k];
     }
 
 }

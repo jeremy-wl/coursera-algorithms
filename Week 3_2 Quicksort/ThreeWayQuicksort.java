@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 /**
  * Created by Jeremy on 3/3/16.
  */
@@ -7,12 +5,12 @@ import java.util.Arrays;
 
 /**
  *
- *  Let v be partitioning item a[lo].
+ *  Let v be partitioning item A[lo].
 
     Scan i from left to right.
-     – (a[i] < v): exchange a[lt] with a[i]; increment both lt and i
-     – (a[i] > v): exchange a[gt] with a[i]; decrement gt
-     – (a[i] == v): increment i
+     – (A[i] < v): exchange A[lt] with A[i]; increment both lt and i
+     – (A[i] > v): exchange A[gt] with A[i]; decrement gt
+     – (A[i] == v): increment i
 
  *
  * */
@@ -20,34 +18,40 @@ import java.util.Arrays;
 
 public class ThreeWayQuicksort {
 
-    public static void sort(Comparable[] a, int lo, int hi) {
+    public static void sort(int[] A, int lo, int hi) {
 
         if (lo >= hi)
             return;
         int lt = lo, gt = hi;
-        Comparable v = a[lo];  // v = a[lo] as the partitioning element
+        int v = A[lo];  // v = A[lo] as the partitioning element
         int i = lo;
 
         while (i <= gt) {
 
-            int cmp = a[i].compareTo(v);
+            int cmp = Integer.compare(A[i], v);
 
             if (cmp < 0)
-                Utils.exchange(a, lt++, i++);
+                swap(A, lt++, i++);
             else if (cmp > 0)
-                Utils.exchange(a, gt--, i);
+                swap(A, gt--, i);
             else
                 i++;
 
         }
 
-        sort(a, lo, lt-1);
-        sort(a, gt+1, hi);
+        sort(A, lo, lt-1);
+        sort(A, gt+1, hi);
 
     }
 
-    public static void sort(Comparable[] a) {
-        sort(a, 0, a.length-1);
+    private static void swap(int[] A, int i, int j) {
+        int tmp = A[i];
+        A[i] = A[j];
+        A[j] = tmp;
+    }
+
+    public static void sort(int[] A) {
+        sort(A, 0, A.length-1);
     }
 
 }
